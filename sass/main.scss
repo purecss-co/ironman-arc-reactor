@@ -1,8 +1,26 @@
 // colors
-$bg-color: #fff;
-$logo-color: #000;
+$bg-color: #0c0e0e;
+$reactor-inner-color:#002d34;
+$reactor-center-color:#0089a9;
+$reactor-outer-color:#00a6ce;
+$trapezoid-color: #46fffe;
+$trapezoid-inner-color: #e4ffff;
+$trapezoid-center-color: #1ffffd;
+$small-circle-inner-color: #eeffff;
+$small-circle-center-color:#21fffe;
+$small-circle-outer-color:#009fc1;
+$circle-inner-color: #52fefe;
+$circle-outer-color: #52fefe;
+$circle-center-color: #0c4d5b;
+$circle-bg-white-color: #ffffff;
+$circle-box-shadow-color: #52fefe;
 
-// mixins
+// sizes
+$reactor-size: 60vmin;
+$trapezoid-deg: 0deg;
+$small-circle-deg: 0deg;
+
+// mixin
 @mixin center {
     position: absolute;
     top: 0;
@@ -17,29 +35,101 @@ $logo-color: #000;
     position: $position;
 }
 
-@mixin breakpoint($point) {
-    @if $point==tablet {
-        @media (max-width: 1024px) and (min-width: 768px) {
-            @content ;
+body {
+    @include center;
+    background: $bg-color;
+    margin-left: -3%;
+    overflow: hidden;
+}
+
+.reactor {
+    @include center;
+    width: $reactor-size;
+    height: $reactor-size;
+    border-radius: 50%;
+    background: radial-gradient(circle, $reactor-inner-color 30%, $reactor-center-color 60%, $reactor-outer-color);
+    border: 1vw solid rgba($reactor-inner-color, 0.3);
+    filter: drop-shadow(0 0 1.8vmin $trapezoid-color);
+    .trapezoid-container {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        .trapezoid {
+            box-sizing: content-box;
+            width: 5vmin;
+            height: 0;
+            position: absolute;
+            top: -4.5vmin;
+            left: 20.5vmin;
+            transform-origin: 10vmin 35vmin;
+            border: 5vmin solid transparent;
+            border-bottom: 0 solid;
+            border-top: 10vmin solid $trapezoid-color;
+            border-radius: 4vmin;
+            filter: drop-shadow(0 0 1.8vmin $trapezoid-color);
+            &:after {
+                @include pseudo;
+                width: 8vmin;
+                height: 8vmin;
+                border-radius: 50%;
+                background: radial-gradient( circle, $trapezoid-inner-color 30%, $trapezoid-center-color);
+                margin: 0;
+                bottom: 1.5vmin;
+                right: -1.5vmin;
+            }
+        }
+        @for $i from 1 through 10 {
+            .trapezoid-#{$i} {
+                transform: rotate($trapezoid-deg);
+            }
+            $trapezoid-deg: $trapezoid-deg+36deg;
         }
     }
-    @else if $point==mobile {
-        @media (max-width: 480px) and (min-width: 320px) {
-            @content ;
+    .small-circle-container {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        .small-circle {
+            position: absolute;
+            width: 4vmin;
+            height: 4vmin;
+            top: -50vmin;
+            left: 21vmin;
+            transform-origin: 9vmin 20.5vmin;
+            border-radius: 50%;
+            background: radial-gradient( circle, $small-circle-inner-color 20%, $small-circle-center-color, $small-circle-outer-color);
+        }
+        @for $i from 1 through 12 {
+            .small-circle-#{$i} {
+                transform: rotate($small-circle-deg);
+            }
+            $small-circle-deg: $small-circle-deg+30deg;
         }
     }
-}
-
-html, body{
-  width: 100%;
-  height: 100%;
-}
-
-body{
-  background: $bg-color;
-  overflow: hidden;
-}
-
-.logo{
-  @include center;
+    .circle-outer {
+        @include center;
+        width: 30.5vmin;
+        height: 30.5vmin;
+        border: 1px solid $circle-outer-color;
+        background-color: $circle-bg-white-color;
+        border-radius: 50%;
+        box-shadow: 0px 0px 2px 1px $circle-box-shadow-color, 0px 0px 2vw 0.8vmin $circle-box-shadow-color inset;
+    }
+    .circle-center {
+        @include center;
+        width: 22vmin;
+        height: 22vmin;
+        background-color: $circle-center-color;
+        border-radius: 50%;
+        box-shadow: 0px 0px 2px 1px $circle-box-shadow-color, 0px 0px 2vw 0.8vmin $circle-box-shadow-color;
+    }
+    .circle-innner {
+        @include center;
+        width: 19vmin;
+        height: 19vmin;
+        border: 1px solid $circle-inner-color;
+        background-color: $circle-bg-white-color;
+        border-radius: 50%;
+        box-shadow: 0px 0px 2px 1px $circle-box-shadow-color, 0px 0px 4.5vw 1.5vmin $circle-box-shadow-color inset;
+    }
 }
